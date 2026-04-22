@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero-section">
+  <div class="hero-card">
+    <div class="hero-text">
+      <span class="eyebrow">Brazilian Jiu-Jitsu Web Platform</span>
+      <h1>Train smarter with MatGuide</h1>
+      <p>
+        MatGuide combines a structured technique library, personal training logs,
+        original instructional video content, and a public discussion forum into one platform.
+      </p>
+
+      <div class="hero-actions">
+        <a class="button" href="{{ url_for('techniques') }}">Browse Techniques</a>
+        <a class="button secondary" href="{{ url_for('forum') }}">Visit Forum</a>
+      </div>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat-card">
+        <span class="stat-label">Techniques</span>
+        <span class="stat-value">{{ total_techniques }}</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Forum Threads</span>
+        <span class="stat-value">{{ total_threads }}</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Registered Users</span>
+        <span class="stat-value">{{ total_users }}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-block">
+  <div class="section-header">
+    <h2>What the platform offers</h2>
+    <p>A single place to learn, reflect, and exchange ideas.</p>
+  </div>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <h3>Technique Library</h3>
+      <p>Browse techniques by category and level, with original embedded instructional videos.</p>
+    </div>
+
+    <div class="feature-card">
+      <h3>Training Logs</h3>
+      <p>Record each session, note what worked, and build a clearer picture of your progress over time.</p>
+    </div>
+
+    <div class="feature-card">
+      <h3>Community Forum</h3>
+      <p>Ask questions, discuss techniques, and share training ideas with other practitioners.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section-block">
+  <div class="section-header">
+    <h2>Recent discussions</h2>
+    <p>Latest public threads from the MatGuide community.</p>
+  </div>
+
+  {% if recent_threads %}
+    <div class="forum-preview-list">
+      {% for thread in recent_threads %}
+        <a class="forum-preview-card" href="{{ url_for('thread_detail', thread_id=thread.id) }}">
+          <span class="thread-category">{{ thread.category }}</span>
+          <h3>{{ thread.title }}</h3>
+          <p class="muted-text">By {{ thread.author.email }} • {{ thread.created_at.strftime("%d %b %Y") }}</p>
+        </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-state">
+      <p>No forum discussions yet. Be the first to start one.</p>
+      {% if current_user.is_authenticated %}
+        <a class="button" href="{{ url_for('new_thread') }}">Create Thread</a>
+      {% else %}
+        <a class="button" href="{{ url_for('register') }}">Create an Account</a>
+      {% endif %}
+    </div>
+  {% endif %}
+</section>
+{% endblock %}

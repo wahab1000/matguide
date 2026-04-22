@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="section-block">
+  <div class="thread-detail-card">
+    <div class="thread-top">
+      <div>
+        <span class="pill">{{ thread.category }}</span>
+        {% if thread.related_technique %}
+          <span class="pill alt-pill">
+            Related technique:
+            <a href="{{ url_for('technique_detail', technique_id=thread.related_technique.id) }}">
+              {{ thread.related_technique.name }}
+            </a>
+          </span>
+        {% endif %}
+      </div>
+      <span class="muted-text">{{ thread.created_at.strftime("%d %b %Y %H:%M") }}</span>
+    </div>
+
+    <h1>{{ thread.title }}</h1>
+    <p class="muted-text">Started by {{ thread.author.email }}</p>
+    <div class="thread-body">
+      <p>{{ thread.body }}</p>
+    </div>
+
+    {% if current_user.is_authenticated and current_user.id == thread.user_id %}
+      <div class="inline-actions">
+        <a class="button secondary" href="{{ url_for('edit_thread', thread_id=thread.id) }}">Edit Thread</a>
+        <form method="POST" action="{{ url_for('delete_thread', thread_id=thread.id) }}" class="inline-form">
+          <button type="submit" class="button danger">Delete Thread</button>
+        </form>
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="section-header top-gap">
+    <h2>Replies</h2>
+    <p>{{ replies|length }} total replies</p>
+  </div>
+
+  {% if replies %}
+    <div class="reply-list">
+      {% for reply in replies %}
+        <div class="reply-card">
+          <div class="thread-bottom">
+            <span><strong>{{ reply.author.email }}</strong></span>
+            <span class="muted-text">{{ reply.created_at.strftime("%d %b %Y %H:%M") }}</span>
+          </div>
+          <p>{{ reply.body }}</p>
+
+          {% if current_user.is_authenticated and current_user.id == reply.user_id %}
+            <form method="POST" action="{{ url_for('delete_reply', reply_id=reply.id) }}" class="top-gap-small">
+              <button type="submit" class="button danger">Delete Reply</button>
+            </form>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-state">
+      <p>No replies yet.</p>
+    </div>
+  {% endif %}
+
+  {% if current_user.is_authenticated %}
+    <div class="form-card wide top-gap">
+      <h3>Post a Reply</h3>
+      <form method="POST" class="styled-form">
+        <label for="body">Your Reply</label>
+        <textarea name="body" id="body" rows="6" required></textarea>
+        <button type="submit" class="button">Post Reply</button>
+      </form>
+    </div>
+  {% else %}
+    <div class="empty-state top-gap">
+      <p>Please log in to reply to this discussion.</p>
+      <a class="button" href="{{ url_for('login') }}">Log In</a>
+    </div>
+  {% endif %}
+</section>
+{% endblock %}

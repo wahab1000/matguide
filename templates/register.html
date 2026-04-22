@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="form-page">
+  <div class="form-card narrow">
+    <h1>Create Account</h1>
+    <p class="muted-text">Create an account to log training and join discussions.</p>
+
+    <form method="POST" class="styled-form">
+      <label for="email">Email</label>
+      <input type="email" name="email" id="email" required>
+
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" required>
+
+      <button type="submit" class="button full-width">Register</button>
+    </form>
+  </div>
+</section>
+{% endblock %}

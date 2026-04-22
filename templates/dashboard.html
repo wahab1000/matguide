@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="section-block">
+  <div class="section-header">
+    <h1>Your Dashboard</h1>
+    <p>Track your training activity and review patterns in your sessions.</p>
+  </div>
+
+  <div class="stats-grid four-cols">
+    <div class="feature-card">
+      <span class="stat-label">Total Sessions</span>
+      <span class="stat-value">{{ total_sessions }}</span>
+    </div>
+    <div class="feature-card">
+      <span class="stat-label">Total Minutes</span>
+      <span class="stat-value">{{ total_minutes }}</span>
+    </div>
+    <div class="feature-card">
+      <span class="stat-label">Average Session</span>
+      <span class="stat-value">{{ avg_session }}</span>
+    </div>
+    <div class="feature-card">
+      <span class="stat-label">Most Logged Technique</span>
+      <span class="stat-small">{{ most_logged_technique }}</span>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <a class="button" href="{{ url_for('new_log') }}">Add New Training Log</a>
+  </div>
+
+  <div class="section-header top-gap">
+    <h2>Your Training Logs</h2>
+    <p>Your private record of sessions, techniques, and reflections.</p>
+  </div>
+
+  {% if logs %}
+    <div class="log-list">
+      {% for log in logs %}
+        <div class="log-card">
+          <div class="log-top">
+            <h3>{{ log.session_date.strftime("%d %B %Y") }}</h3>
+            <span class="pill">{{ log.duration_minutes if log.duration_minutes else "No duration" }} mins</span>
+          </div>
+
+          <p><strong>Techniques:</strong> {{ log.techniques if log.techniques else "Not provided" }}</p>
+          <p><strong>Notes:</strong> {{ log.notes if log.notes else "No notes added" }}</p>
+
+          <div class="inline-actions">
+            <a class="button secondary" href="{{ url_for('edit_log', log_id=log.id) }}">Edit</a>
+            <form method="POST" action="{{ url_for('delete_log', log_id=log.id) }}" class="inline-form">
+              <button type="submit" class="button danger">Delete</button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-state">
+      <p>You have not added any training logs yet.</p>
+      <a class="button" href="{{ url_for('new_log') }}">Create Your First Log</a>
+    </div>
+  {% endif %}
+</section>
+{% endblock %}

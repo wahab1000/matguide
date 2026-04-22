@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="section-block">
+  <div class="section-header">
+    <h1>Community Forum</h1>
+    <p>Ask questions, exchange ideas, and discuss training with other users.</p>
+  </div>
+
+  <div class="toolbar spaced">
+    <form method="GET" class="filter-card forum-filter">
+      <input type="text" name="q" placeholder="Search discussion threads..." value="{{ search_query }}">
+
+      <select name="category">
+        <option value="">All categories</option>
+        {% for category in categories %}
+          <option value="{{ category }}" {% if category == category_filter %}selected{% endif %}>
+            {{ category }}
+          </option>
+        {% endfor %}
+      </select>
+
+      <button type="submit" class="button">Search</button>
+    </form>
+
+    {% if current_user.is_authenticated %}
+      <a class="button" href="{{ url_for('new_thread') }}">Create Thread</a>
+    {% else %}
+      <a class="button" href="{{ url_for('login') }}">Log in to post</a>
+    {% endif %}
+  </div>
+
+  {% if threads %}
+    <div class="thread-list">
+      {% for thread in threads %}
+        <div class="thread-card">
+          <div class="thread-top">
+            <div>
+              <span class="pill">{{ thread.category }}</span>
+              {% if thread.related_technique %}
+                <span class="pill alt-pill">Related: {{ thread.related_technique.name }}</span>
+              {% endif %}
+            </div>
+            <span class="muted-text">{{ thread.created_at.strftime("%d %b %Y") }}</span>
+          </div>
+
+          <h3><a href="{{ url_for('thread_detail', thread_id=thread.id) }}">{{ thread.title }}</a></h3>
+          <p class="thread-preview">{{ thread.body[:180] }}{% if thread.body|length > 180 %}...{% endif %}</p>
+
+          <div class="thread-bottom">
+            <span class="muted-text">By {{ thread.author.email }}</span>
+            <span class="muted-text">{{ thread.replies|length }} replies</span>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-state">
+      <p>No forum threads found.</p>
+    </div>
+  {% endif %}
+</section>
+{% endblock %}

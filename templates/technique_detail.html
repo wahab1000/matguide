@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="section-block">
+  <div class="section-header">
+    <span class="eyebrow">Technique Detail</span>
+    <h1>{{ technique.name }}</h1>
+  </div>
+
+  <div class="detail-layout">
+    <div class="detail-main">
+      <div class="feature-card">
+        <div class="technique-meta">
+          <span class="pill">{{ technique.category }}</span>
+          <span class="pill level-pill">{{ technique.level }}</span>
+        </div>
+
+        <p class="detail-description">{{ technique.description }}</p>
+      </div>
+
+      {% if embed_url %}
+        <div class="video-shell">
+          <iframe
+            width="100%"
+            height="420"
+            src="{{ embed_url }}"
+            title="{{ technique.name }} video"
+            frameborder="0"
+            allowfullscreen>
+          </iframe>
+        </div>
+      {% else %}
+        <div class="empty-state">
+          <p>No video has been added for this technique yet.</p>
+        </div>
+      {% endif %}
+    </div>
+
+    <aside class="detail-side">
+      <div class="feature-card">
+        <h3>Related discussion</h3>
+        {% if related_threads %}
+          <div class="mini-thread-list">
+            {% for thread in related_threads %}
+              <a class="mini-thread-item" href="{{ url_for('thread_detail', thread_id=thread.id) }}">
+                <strong>{{ thread.title }}</strong>
+                <span class="muted-text">{{ thread.category }}</span>
+              </a>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="muted-text">No forum threads linked to this technique yet.</p>
+        {% endif %}
+
+        {% if current_user.is_authenticated %}
+          <a class="button full-width top-gap-small" href="{{ url_for('new_thread') }}">Start Discussion</a>
+        {% endif %}
+      </div>
+    </aside>
+  </div>
+
+  <p class="back-link"><a href="{{ url_for('techniques') }}">← Back to Technique Library</a></p>
+</section>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="form-page">
+  <div class="form-card narrow">
+    <h1>Log In</h1>
+    <p class="muted-text">Access your dashboard, logs, and forum participation.</p>
+
+    <form method="POST" class="styled-form">
+      <label for="email">Email</label>
+      <input type="email" name="email" id="email" required>
+
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" required>
+
+      <button type="submit" class="button full-width">Log In</button>
+    </form>
+  </div>
+</section>
+{% endblock %}

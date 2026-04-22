@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="form-page">
+  <div class="form-card wide">
+    <h1>Edit Training Log</h1>
+
+    <form method="POST" class="styled-form">
+      <label for="session_date">Date</label>
+      <input
+        type="date"
+        name="session_date"
+        id="session_date"
+        value="{{ log.session_date.strftime('%Y-%m-%d') }}"
+        required
+      >
+
+      <label for="duration_minutes">Duration (minutes)</label>
+      <input
+        type="number"
+        name="duration_minutes"
+        id="duration_minutes"
+        min="0"
+        value="{{ log.duration_minutes if log.duration_minutes else '' }}"
+      >
+
+      <label for="techniques">Techniques Practised</label>
+      <input
+        type="text"
+        name="techniques"
+        id="techniques"
+        value="{{ log.techniques if log.techniques else '' }}"
+      >
+
+      <label for="notes">Notes</label>
+      <textarea name="notes" id="notes" rows="6">{{ log.notes if log.notes else '' }}</textarea>
+
+      <button type="submit" class="button">Update Log</button>
+    </form>
+  </div>
+</section>
+{% endblock %}
