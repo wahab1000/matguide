@@ -37,7 +37,23 @@
 
     <aside class="detail-side">
       <div class="feature-card">
-        <h3>Related discussion</h3>
+        <h3>Related Techniques</h3>
+        {% if related_techniques %}
+          <div class="mini-thread-list">
+            {% for related in related_techniques %}
+              <a class="mini-thread-item" href="{{ url_for('technique_detail', technique_id=related.id) }}">
+                <strong>{{ related.name }}</strong>
+                <span class="muted-text">{{ related.level }}</span>
+              </a>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="muted-text">No related techniques available in this category yet.</p>
+        {% endif %}
+      </div>
+
+      <div class="feature-card top-gap-small">
+        <h3>Related Discussion</h3>
         {% if related_threads %}
           <div class="mini-thread-list">
             {% for thread in related_threads %}

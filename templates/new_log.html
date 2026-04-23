@@ -3,20 +3,42 @@
 <section class="form-page">
   <div class="form-card wide">
     <h1>Add Training Log</h1>
-    <p class="muted-text">Record what you trained, how long you trained, and what you learned.</p>
+    <p class="muted-text">
+      Record what you trained, how long you trained, and any key observations from the session.
+    </p>
+
+    <p class="muted-text" style="margin-top: -8px; margin-bottom: 20px;">
+      Tip: Include which techniques you drilled, what felt effective, and what you want to improve next time.
+    </p>
 
     <form method="POST" class="styled-form">
       <label for="session_date">Date</label>
       <input type="date" name="session_date" id="session_date" required>
 
       <label for="duration_minutes">Duration (minutes)</label>
-      <input type="number" name="duration_minutes" id="duration_minutes" min="0">
+      <input
+        type="number"
+        name="duration_minutes"
+        id="duration_minutes"
+        min="0"
+        placeholder="e.g. 90"
+      >
 
       <label for="techniques">Techniques Practised</label>
-      <input type="text" name="techniques" id="techniques" placeholder="e.g. Shrimp, Knee Slide Guard Pass">
+      <input
+        type="text"
+        name="techniques"
+        id="techniques"
+        placeholder="e.g. Shrimp, Knee Slide Guard Pass, Cross Collar Choke"
+      >
 
       <label for="notes">Notes</label>
-      <textarea name="notes" id="notes" rows="6" placeholder="What worked well? What needs improving?"></textarea>
+      <textarea
+        name="notes"
+        id="notes"
+        rows="6"
+        placeholder="e.g. Struggled to escape mount, improved my framing, need to work on timing next session."
+      ></textarea>
 
       <button type="submit" class="button">Save Log</button>
     </form>

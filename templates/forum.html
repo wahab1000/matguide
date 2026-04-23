@@ -6,6 +6,12 @@
     <p>Ask questions, exchange ideas, and discuss training with other users.</p>
   </div>
 
+  <div class="notice-card">
+    <strong>Community notice:</strong>
+    This is a limited academic test version of MatGuide. Please keep posts respectful,
+    avoid sensitive personal information, and use the forum for constructive BJJ discussion only.
+  </div>
+
   <div class="toolbar spaced">
     <form method="GET" class="filter-card forum-filter">
       <input type="text" name="q" placeholder="Search discussion threads..." value="{{ search_query }}">
@@ -19,7 +25,12 @@
         {% endfor %}
       </select>
 
-      <button type="submit" class="button">Search</button>
+      <select name="sort">
+        <option value="latest" {% if sort_by == 'latest' %}selected{% endif %}>Latest</option>
+        <option value="most_replies" {% if sort_by == 'most_replies' %}selected{% endif %}>Most Replies</option>
+      </select>
+
+      <button type="submit" class="button">Apply</button>
     </form>
 
     {% if current_user.is_authenticated %}
@@ -43,8 +54,15 @@
             <span class="muted-text">{{ thread.created_at.strftime("%d %b %Y") }}</span>
           </div>
 
-          <h3><a href="{{ url_for('thread_detail', thread_id=thread.id) }}">{{ thread.title }}</a></h3>
-          <p class="thread-preview">{{ thread.body[:180] }}{% if thread.body|length > 180 %}...{% endif %}</p>
+          <h3>
+            <a href="{{ url_for('thread_detail', thread_id=thread.id) }}">
+              {{ thread.title }}
+            </a>
+          </h3>
+
+          <p class="thread-preview">
+            {{ thread.body[:180] }}{% if thread.body|length > 180 %}...{% endif %}
+          </p>
 
           <div class="thread-bottom">
             <span class="muted-text">By {{ thread.author.email }}</span>

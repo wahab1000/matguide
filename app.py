@@ -15,6 +15,7 @@ from collections import Counter
 
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_login import login_user, login_required, logout_user, current_user
+from sqlalchemy import or_
 
 from config import Config
 from extensions import db, login_manager
@@ -132,7 +133,6 @@ def create_app():
         total_minutes = sum(log.duration_minutes or 0 for log in logs)
         avg_session = round(total_minutes / total_sessions, 1) if total_sessions else 0
 
-        # Work out most logged technique by splitting comma-separated technique text
         technique_counter = Counter()
         for log in logs:
             if log.techniques:
@@ -252,7 +252,13 @@ def create_app():
         query = Technique.query
 
         if search_query:
-            query = query.filter(Technique.name.ilike(f"%{search_query}%"))
+            query = query.filter(
+                or_(
+                    Technique.name.ilike(f"%{search_query}%"),
+                    Technique.description.ilike(f"%{search_query}%"),
+                    Technique.category.ilike(f"%{search_query}%"),
+                )
+            )
 
         if category_filter:
             query = query.filter(Technique.category == category_filter)
@@ -260,7 +266,10 @@ def create_app():
         if level_filter:
             query = query.filter(Technique.level == level_filter)
 
-        techniques_list = query.order_by(Technique.category.asc(), Technique.name.asc()).all()
+        techniques_list = query.order_by(
+            Technique.category.asc(),
+            Technique.name.asc()
+        ).all()
 
         categories = sorted({tech.category for tech in Technique.query.all()})
         levels = ["Beginner", "Intermediate", "Advanced"]
@@ -288,11 +297,22 @@ def create_app():
             .all()
         )
 
+        related_techniques = (
+            Technique.query
+            .filter(
+                Technique.category == technique.category,
+                Technique.id != technique.id
+            )
+            .limit(4)
+            .all()
+        )
+
         return render_template(
             "technique_detail.html",
             technique=technique,
             embed_url=embed_url,
             related_threads=related_threads,
+            related_techniques=related_techniques,
         )
 
     # ---------------------------
@@ -303,16 +323,27 @@ def create_app():
     def forum():
         search_query = request.args.get("q", "").strip()
         category_filter = request.args.get("category", "").strip()
+        sort_by = request.args.get("sort", "latest").strip()
 
         query = ForumThread.query
 
         if search_query:
-            query = query.filter(ForumThread.title.ilike(f"%{search_query}%"))
+            query = query.filter(
+                or_(
+                    ForumThread.title.ilike(f"%{search_query}%"),
+                    ForumThread.body.ilike(f"%{search_query}%")
+                )
+            )
 
         if category_filter:
             query = query.filter(ForumThread.category == category_filter)
 
-        threads = query.order_by(ForumThread.created_at.desc()).all()
+        threads = query.all()
+
+        if sort_by == "most_replies":
+            threads = sorted(threads, key=lambda t: len(t.replies), reverse=True)
+        else:
+            threads = sorted(threads, key=lambda t: t.created_at, reverse=True)
 
         return render_template(
             "forum.html",
@@ -320,6 +351,7 @@ def create_app():
             categories=FORUM_CATEGORIES,
             search_query=search_query,
             category_filter=category_filter,
+            sort_by=sort_by,
         )
 
     @app.route("/forum/new", methods=["GET", "POST"])
