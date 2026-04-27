@@ -1,51 +1,120 @@
+<!-- Tells the browser this file is using HTML5 -->
 <!DOCTYPE html>
+
+<!-- Starts the HTML page and sets the language to English -->
 <html lang="en">
+
+<!-- Head section stores page setup information -->
 <head>
+  <!-- Allows special characters to display correctly -->
   <meta charset="UTF-8">
+
+  <!-- Makes the page scale properly on phones and tablets -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Sets the browser tab title, using MatGuide if no custom title is given -->
   <title>{{ title if title else "MatGuide" }}</title>
+
+  <!-- Links this page to the main CSS file -->
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
+
+<!-- Body contains everything visible on the page -->
 <body>
+  <!-- Header contains the top navigation bar -->
   <header class="site-header">
+
+    <!-- Main navigation area -->
     <nav class="navbar">
+
+      <!-- Left side of the navigation bar -->
       <div class="nav-left">
+
+        <!-- Site name/logo linking to the homepage -->
         <a class="brand" href="{{ url_for('index') }}">MatGuide</a>
+
+        <!-- Link to the technique library -->
         <a href="{{ url_for('techniques') }}">Techniques</a>
+
+        <!-- Link to the forum page -->
         <a href="{{ url_for('forum') }}">Forum</a>
+
+        <!-- Checks if the user is logged in -->
         {% if current_user.is_authenticated %}
+
+          <!-- Link to the user's dashboard, only shown when logged in -->
           <a href="{{ url_for('dashboard') }}">Dashboard</a>
+
+          <!-- Link to create a new training log, only shown when logged in -->
           <a href="{{ url_for('new_log') }}">New Log</a>
+
+        <!-- Ends the logged-in check -->
         {% endif %}
       </div>
 
+      <!-- Right side of the navigation bar -->
       <div class="nav-right">
+
+        <!-- Checks if the user is logged in -->
         {% if current_user.is_authenticated %}
+
+          <!-- Shows the logged-in user's email -->
           <span class="user-email">{{ current_user.email }}</span>
+
+          <!-- Link to log out -->
           <a href="{{ url_for('logout') }}">Logout</a>
+
+        <!-- Runs if the user is not logged in -->
         {% else %}
+
+          <!-- Link to the login page -->
           <a href="{{ url_for('login') }}">Login</a>
+
+          <!-- Link to registration page, styled as a button -->
           <a class="button nav-button" href="{{ url_for('register') }}">Register</a>
+
+        <!-- Ends the logged-in / logged-out check -->
         {% endif %}
       </div>
     </nav>
   </header>
 
+  <!-- Main page content area -->
   <main class="page-shell">
+
+    <!-- Gets flash messages from Flask, such as success or error messages -->
     {% with messages = get_flashed_messages(with_categories=true) %}
+
+      <!-- Checks if there are any messages to show -->
       {% if messages %}
+
+        <!-- Container for flash messages -->
         <div class="flash-container">
+
+          <!-- Loops through each message and its category -->
           {% for category, message in messages %}
+
+            <!-- Displays each flash message with its category as a CSS class -->
             <div class="flash {{ category }}">{{ message }}</div>
+
+          <!-- Ends the flash message loop -->
           {% endfor %}
         </div>
+
+      <!-- Ends the message check -->
       {% endif %}
+
+    <!-- Ends the flash message block -->
     {% endwith %}
 
+    <!-- This is where each individual page inserts its own content -->
     {% block content %}{% endblock %}
   </main>
 
+  <!-- Footer shown at the bottom of every page -->
   <footer class="footer">
+
+    <!-- Short description of the website -->
     <p>MatGuide • BJJ learning, training tracking, and community interaction</p>
   </footer>
 </body>

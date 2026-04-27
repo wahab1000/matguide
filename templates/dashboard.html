@@ -1,68 +1,143 @@
+<!-- This page uses the base layout (base.html) -->
 {% extends "base.html" %}
+
+<!-- Start of content that will be inserted into base.html -->
 {% block content %}
+
+<!-- Main dashboard section -->
 <section class="section-block">
+
+  <!-- Page header -->
   <div class="section-header">
+
+    <!-- Main heading -->
     <h1>Your Dashboard</h1>
+
+    <!-- Description explaining what the dashboard shows -->
     <p>
       This dashboard summarises your training activity, helping you track consistency,
       review session volume, and identify which techniques you practise most often.
     </p>
   </div>
 
+  <!-- Grid showing summary statistics -->
   <div class="stats-grid four-cols">
+
+    <!-- Total number of sessions -->
     <div class="feature-card">
       <span class="stat-label">Total Sessions</span>
       <span class="stat-value">{{ total_sessions }}</span>
     </div>
+
+    <!-- Total minutes trained -->
     <div class="feature-card">
       <span class="stat-label">Total Minutes</span>
       <span class="stat-value">{{ total_minutes }}</span>
     </div>
+
+    <!-- Average session length -->
     <div class="feature-card">
       <span class="stat-label">Average Session</span>
       <span class="stat-value">{{ avg_session }}</span>
     </div>
+
+    <!-- Most frequently logged technique -->
     <div class="feature-card">
       <span class="stat-label">Most Logged Technique</span>
       <span class="stat-small">{{ most_logged_technique }}</span>
     </div>
   </div>
 
+  <!-- Toolbar with main action -->
   <div class="toolbar">
+
+    <!-- Button to add a new training log -->
     <a class="button" href="{{ url_for('new_log') }}">Add New Training Log</a>
   </div>
 
+  <!-- Section header for logs -->
   <div class="section-header top-gap">
+
+    <!-- Subheading -->
     <h2>Your Training Logs</h2>
+
+    <!-- Description -->
     <p>Your private record of sessions, techniques, and reflections.</p>
   </div>
 
+  <!-- Checks if the user has any logs -->
   {% if logs %}
+
+    <!-- Container for all logs -->
     <div class="log-list">
+
+      <!-- Loop through each log -->
       {% for log in logs %}
+
+        <!-- Individual log card -->
         <div class="log-card">
+
+          <!-- Top section of the log card -->
           <div class="log-top">
+
+            <!-- Displays session date in readable format -->
             <h3>{{ log.session_date.strftime("%d %B %Y") }}</h3>
-            <span class="pill">{{ log.duration_minutes if log.duration_minutes else "No duration" }} mins</span>
+
+            <!-- Shows duration, or fallback text if not provided -->
+            <span class="pill">
+              {{ log.duration_minutes if log.duration_minutes else "No duration" }} mins
+            </span>
           </div>
 
-          <p><strong>Techniques:</strong> {{ log.techniques if log.techniques else "Not provided" }}</p>
-          <p><strong>Notes:</strong> {{ log.notes if log.notes else "No notes added" }}</p>
+          <!-- Shows techniques used in the session -->
+          <p>
+            <strong>Techniques:</strong>
+            {{ log.techniques if log.techniques else "Not provided" }}
+          </p>
 
+          <!-- Shows notes from the session -->
+          <p>
+            <strong>Notes:</strong>
+            {{ log.notes if log.notes else "No notes added" }}
+          </p>
+
+          <!-- Action buttons -->
           <div class="inline-actions">
-            <a class="button secondary" href="{{ url_for('edit_log', log_id=log.id) }}">Edit</a>
+
+            <!-- Edit log button -->
+            <a class="button secondary" href="{{ url_for('edit_log', log_id=log.id) }}">
+              Edit
+            </a>
+
+            <!-- Delete log form -->
             <form method="POST" action="{{ url_for('delete_log', log_id=log.id) }}" class="inline-form">
+
+              <!-- Delete button -->
               <button type="submit" class="button danger">Delete</button>
             </form>
           </div>
         </div>
+
+      <!-- End of loop -->
       {% endfor %}
     </div>
+
+  <!-- If no logs exist -->
   {% else %}
+
+    <!-- Empty state message -->
     <div class="empty-state">
+
+      <!-- Message -->
       <p>You have not added any training logs yet.</p>
+
+      <!-- Button to create first log -->
       <a class="button" href="{{ url_for('new_log') }}">Create Your First Log</a>
     </div>
+
+  <!-- End condition -->
   {% endif %}
 </section>
+
+<!-- End of content block -->
 {% endblock %}

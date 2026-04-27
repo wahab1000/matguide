@@ -1,21 +1,41 @@
+<!-- This page uses the base layout -->
 {% extends "base.html" %}
+
+<!-- Start of content block -->
 {% block content %}
+
+<!-- Section for form-based pages -->
 <section class="form-page">
+
+  <!-- Wide form card for adding a new training log -->
   <div class="form-card wide">
+
+    <!-- Page heading -->
     <h1>Add Training Log</h1>
+
+    <!-- Description explaining what the user should do -->
     <p class="muted-text">
       Record what you trained, how long you trained, and any key observations from the session.
     </p>
 
+    <!-- Extra tip for the user -->
     <p class="muted-text" style="margin-top: -8px; margin-bottom: 20px;">
       Tip: Include which techniques you drilled, what felt effective, and what you want to improve next time.
     </p>
 
+    <!-- Form sends new log data using POST -->
     <form method="POST" class="styled-form">
+
+      <!-- Label for session date -->
       <label for="session_date">Date</label>
+
+      <!-- Date input (required) -->
       <input type="date" name="session_date" id="session_date" required>
 
+      <!-- Label for duration -->
       <label for="duration_minutes">Duration (minutes)</label>
+
+      <!-- Number input for duration (optional, minimum 0) -->
       <input
         type="number"
         name="duration_minutes"
@@ -24,7 +44,10 @@
         placeholder="e.g. 90"
       >
 
+      <!-- Label for techniques -->
       <label for="techniques">Techniques Practised</label>
+
+      <!-- Text input for listing techniques -->
       <input
         type="text"
         name="techniques"
@@ -32,7 +55,10 @@
         placeholder="e.g. Shrimp, Knee Slide Guard Pass, Cross Collar Choke"
       >
 
+      <!-- Label for notes -->
       <label for="notes">Notes</label>
+
+      <!-- Text area for detailed session notes -->
       <textarea
         name="notes"
         id="notes"
@@ -40,8 +66,11 @@
         placeholder="e.g. Struggled to escape mount, improved my framing, need to work on timing next session."
       ></textarea>
 
+      <!-- Submit button to save the log -->
       <button type="submit" class="button">Save Log</button>
     </form>
   </div>
 </section>
+
+<!-- End of content block -->
 {% endblock %}

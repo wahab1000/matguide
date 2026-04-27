@@ -1,24 +1,48 @@
+<!-- This page uses the base layout -->
 {% extends "base.html" %}
+
+<!-- Start of content block -->
 {% block content %}
+
+<!-- Main section for technique details -->
 <section class="section-block">
+
+  <!-- Header showing technique name -->
   <div class="section-header">
+
+    <!-- Small label -->
     <span class="eyebrow">Technique Detail</span>
+
+    <!-- Technique name pulled from database -->
     <h1>{{ technique.name }}</h1>
   </div>
 
+  <!-- Layout splits into main content and side panel -->
   <div class="detail-layout">
+
+    <!-- Main content area -->
     <div class="detail-main">
+
+      <!-- Card containing technique information -->
       <div class="feature-card">
+
+        <!-- Displays category and level -->
         <div class="technique-meta">
           <span class="pill">{{ technique.category }}</span>
           <span class="pill level-pill">{{ technique.level }}</span>
         </div>
 
+        <!-- Technique description -->
         <p class="detail-description">{{ technique.description }}</p>
       </div>
 
+      <!-- Check if a YouTube embed URL exists -->
       {% if embed_url %}
+
+        <!-- Container for the embedded video -->
         <div class="video-shell">
+
+          <!-- Embedded YouTube video -->
           <iframe
             width="100%"
             height="420"
@@ -28,52 +52,104 @@
             allowfullscreen>
           </iframe>
         </div>
+
+      <!-- If no video is available -->
       {% else %}
+
+        <!-- Message shown when no video exists -->
         <div class="empty-state">
           <p>No video has been added for this technique yet.</p>
         </div>
+
       {% endif %}
     </div>
 
+    <!-- Sidebar area -->
     <aside class="detail-side">
+
+      <!-- Related techniques section -->
       <div class="feature-card">
+
+        <!-- Section title -->
         <h3>Related Techniques</h3>
+
+        <!-- Check if there are related techniques -->
         {% if related_techniques %}
+
+          <!-- List of related techniques -->
           <div class="mini-thread-list">
+
+            <!-- Loop through each related technique -->
             {% for related in related_techniques %}
+
+              <!-- Clickable item linking to that technique -->
               <a class="mini-thread-item" href="{{ url_for('technique_detail', technique_id=related.id) }}">
                 <strong>{{ related.name }}</strong>
                 <span class="muted-text">{{ related.level }}</span>
               </a>
+
             {% endfor %}
           </div>
+
+        <!-- If no related techniques -->
         {% else %}
+
+          <!-- Message -->
           <p class="muted-text">No related techniques available in this category yet.</p>
+
         {% endif %}
       </div>
 
+      <!-- Related discussion section -->
       <div class="feature-card top-gap-small">
+
+        <!-- Section title -->
         <h3>Related Discussion</h3>
+
+        <!-- Check if there are related threads -->
         {% if related_threads %}
+
+          <!-- List of related threads -->
           <div class="mini-thread-list">
+
+            <!-- Loop through each thread -->
             {% for thread in related_threads %}
+
+              <!-- Clickable item linking to thread -->
               <a class="mini-thread-item" href="{{ url_for('thread_detail', thread_id=thread.id) }}">
                 <strong>{{ thread.title }}</strong>
                 <span class="muted-text">{{ thread.category }}</span>
               </a>
+
             {% endfor %}
           </div>
+
+        <!-- If no threads exist -->
         {% else %}
+
+          <!-- Message -->
           <p class="muted-text">No forum threads linked to this technique yet.</p>
+
         {% endif %}
 
+        <!-- If user is logged in, allow them to start a discussion -->
         {% if current_user.is_authenticated %}
-          <a class="button full-width top-gap-small" href="{{ url_for('new_thread') }}">Start Discussion</a>
+
+          <!-- Button to create a new thread -->
+          <a class="button full-width top-gap-small" href="{{ url_for('new_thread') }}">
+            Start Discussion
+          </a>
+
         {% endif %}
       </div>
     </aside>
   </div>
 
-  <p class="back-link"><a href="{{ url_for('techniques') }}">← Back to Technique Library</a></p>
+  <!-- Link to go back to the technique list -->
+  <p class="back-link">
+    <a href="{{ url_for('techniques') }}">← Back to Technique Library</a>
+  </p>
 </section>
+
+<!-- End of content block -->
 {% endblock %}

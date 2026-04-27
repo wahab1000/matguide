@@ -1,37 +1,77 @@
+<!-- This page uses the base layout from base.html -->
 {% extends "base.html" %}
+
+<!-- Start of content that will be inserted into base.html -->
 {% block content %}
+
+<!-- Section used for form pages -->
 <section class="form-page">
+
+  <!-- Wide form card to contain the edit thread form -->
   <div class="form-card wide">
+
+    <!-- Page heading -->
     <h1>Edit Discussion Thread</h1>
 
+    <!-- Form sends updated thread data using POST -->
     <form method="POST" class="styled-form">
+
+      <!-- Label for thread title -->
       <label for="title">Thread Title</label>
+
+      <!-- Input field pre-filled with the current thread title -->
       <input type="text" name="title" id="title" value="{{ thread.title }}" required>
 
+      <!-- Label for selecting category -->
       <label for="category">Category</label>
+
+      <!-- Dropdown for selecting a category -->
       <select name="category" id="category" required>
+
+        <!-- Loop through all available categories -->
         {% for category in categories %}
+
+          <!-- Each option represents one category -->
           <option value="{{ category }}" {% if category == thread.category %}selected{% endif %}>
             {{ category }}
           </option>
+
+        <!-- End of loop -->
         {% endfor %}
       </select>
 
+      <!-- Label for linking a related technique -->
       <label for="technique_id">Related Technique (optional)</label>
+
+      <!-- Dropdown for selecting a technique -->
       <select name="technique_id" id="technique_id">
+
+        <!-- Default option when no technique is selected -->
         <option value="">No related technique</option>
+
+        <!-- Loop through all techniques -->
         {% for technique in techniques %}
+
+          <!-- Option for each technique -->
           <option value="{{ technique.id }}" {% if thread.technique_id == technique.id %}selected{% endif %}>
             {{ technique.name }}
           </option>
+
+        <!-- End of loop -->
         {% endfor %}
       </select>
 
+      <!-- Label for thread body -->
       <label for="body">Post Content</label>
+
+      <!-- Text area pre-filled with the current thread content -->
       <textarea name="body" id="body" rows="8" required>{{ thread.body }}</textarea>
 
+      <!-- Submit button to update the thread -->
       <button type="submit" class="button">Update Thread</button>
     </form>
   </div>
 </section>
+
+<!-- End of content block -->
 {% endblock %}

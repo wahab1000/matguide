@@ -1,12 +1,24 @@
+<!-- This page uses the base layout -->
 {% extends "base.html" %}
+
+<!-- Start of content block -->
 {% block content %}
+
+<!-- Main section for the technique library -->
 <section class="section-block">
+
+  <!-- Section header -->
   <div class="section-header">
     <h1>Technique Library</h1>
+
+    <!-- Short description -->
     <p>Browse techniques by category and level, with original instructional video content.</p>
   </div>
 
+  <!-- Filter/search form (uses GET so values appear in URL) -->
   <form method="GET" class="filter-card">
+
+    <!-- Search input for techniques -->
     <input
       type="text"
       name="q"
@@ -14,47 +26,87 @@
       value="{{ search_query }}"
     >
 
+    <!-- Dropdown to filter by category -->
     <select name="category">
+
+      <!-- Default option -->
       <option value="">All categories</option>
+
+      <!-- Loop through categories -->
       {% for category in categories %}
+
+        <!-- Option is selected if it matches current filter -->
         <option value="{{ category }}" {% if category == category_filter %}selected{% endif %}>
           {{ category }}
         </option>
+
       {% endfor %}
     </select>
 
+    <!-- Dropdown to filter by level -->
     <select name="level">
+
+      <!-- Default option -->
       <option value="">All levels</option>
+
+      <!-- Loop through levels -->
       {% for level in levels %}
+
+        <!-- Option is selected if it matches current filter -->
         <option value="{{ level }}" {% if level == level_filter %}selected{% endif %}>
           {{ level }}
         </option>
+
       {% endfor %}
     </select>
 
+    <!-- Submit button to apply filters -->
     <button type="submit" class="button">Apply</button>
   </form>
 
+  <!-- Check if there are techniques to display -->
   {% if techniques %}
+
+    <!-- Grid layout for technique cards -->
     <div class="technique-grid">
+
+      <!-- Loop through each technique -->
       {% for technique in techniques %}
+
+        <!-- Individual technique card -->
         <div class="technique-card">
+
+          <!-- Shows category and level -->
           <div class="technique-meta">
             <span class="pill">{{ technique.category }}</span>
             <span class="pill level-pill">{{ technique.level }}</span>
           </div>
+
+          <!-- Technique name -->
           <h3>{{ technique.name }}</h3>
+
+          <!-- Short preview of description (first 120 characters) -->
           <p>{{ technique.description[:120] }}...</p>
+
+          <!-- Button linking to full technique detail page -->
           <a class="button" href="{{ url_for('technique_detail', technique_id=technique.id) }}">
             View Technique
           </a>
         </div>
+
       {% endfor %}
     </div>
+
+  <!-- If no techniques match search/filter -->
   {% else %}
+
+    <!-- Empty state message -->
     <div class="empty-state">
       <p>No techniques matched your search.</p>
     </div>
+
   {% endif %}
 </section>
+
+<!-- End of content block -->
 {% endblock %}

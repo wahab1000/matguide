@@ -1,80 +1,148 @@
+<!-- This page uses the base layout -->
 {% extends "base.html" %}
+
+<!-- Start of content block -->
 {% block content %}
+
+<!-- Main forum section -->
 <section class="section-block">
+
+  <!-- Page header -->
   <div class="section-header">
     <h1>Community Forum</h1>
+
+    <!-- Description of the forum -->
     <p>Ask questions, exchange ideas, and discuss training with other users.</p>
   </div>
 
+  <!-- Notice shown to users about using the forum -->
   <div class="notice-card">
     <strong>Community notice:</strong>
     This is a limited academic test version of MatGuide. Please keep posts respectful,
     avoid sensitive personal information, and use the forum for constructive BJJ discussion only.
   </div>
 
+  <!-- Toolbar containing search/filter and action button -->
   <div class="toolbar spaced">
+
+    <!-- Form used for searching and filtering threads -->
     <form method="GET" class="filter-card forum-filter">
+
+      <!-- Search input for thread titles/content -->
       <input type="text" name="q" placeholder="Search discussion threads..." value="{{ search_query }}">
 
+      <!-- Dropdown to filter by category -->
       <select name="category">
+
+        <!-- Default option -->
         <option value="">All categories</option>
+
+        <!-- Loop through categories -->
         {% for category in categories %}
+
+          <!-- Category option (selected if matches current filter) -->
           <option value="{{ category }}" {% if category == category_filter %}selected{% endif %}>
             {{ category }}
           </option>
+
         {% endfor %}
       </select>
 
+      <!-- Dropdown to choose sorting method -->
       <select name="sort">
+
+        <!-- Sort by latest -->
         <option value="latest" {% if sort_by == 'latest' %}selected{% endif %}>Latest</option>
+
+        <!-- Sort by number of replies -->
         <option value="most_replies" {% if sort_by == 'most_replies' %}selected{% endif %}>Most Replies</option>
       </select>
 
+      <!-- Submit button to apply filters -->
       <button type="submit" class="button">Apply</button>
     </form>
 
+    <!-- Shows different button depending on login status -->
     {% if current_user.is_authenticated %}
+
+      <!-- Button to create a new thread -->
       <a class="button" href="{{ url_for('new_thread') }}">Create Thread</a>
+
     {% else %}
+
+      <!-- Button prompting user to log in -->
       <a class="button" href="{{ url_for('login') }}">Log in to post</a>
+
     {% endif %}
   </div>
 
+  <!-- Check if there are any threads -->
   {% if threads %}
+
+    <!-- Container for thread cards -->
     <div class="thread-list">
+
+      <!-- Loop through each thread -->
       {% for thread in threads %}
+
+        <!-- Individual thread card -->
         <div class="thread-card">
+
+          <!-- Top section of thread card -->
           <div class="thread-top">
+
+            <!-- Left side: category and related technique -->
             <div>
+
+              <!-- Displays thread category -->
               <span class="pill">{{ thread.category }}</span>
+
+              <!-- Shows related technique if one exists -->
               {% if thread.related_technique %}
                 <span class="pill alt-pill">Related: {{ thread.related_technique.name }}</span>
               {% endif %}
             </div>
+
+            <!-- Right side: thread creation date -->
             <span class="muted-text">{{ thread.created_at.strftime("%d %b %Y") }}</span>
           </div>
 
+          <!-- Thread title (clickable link to full thread page) -->
           <h3>
             <a href="{{ url_for('thread_detail', thread_id=thread.id) }}">
               {{ thread.title }}
             </a>
           </h3>
 
+          <!-- Preview of thread content (limited to 180 characters) -->
           <p class="thread-preview">
             {{ thread.body[:180] }}{% if thread.body|length > 180 %}...{% endif %}
           </p>
 
+          <!-- Bottom section of thread card -->
           <div class="thread-bottom">
+
+            <!-- Displays author -->
             <span class="muted-text">By {{ thread.author.email }}</span>
+
+            <!-- Displays number of replies -->
             <span class="muted-text">{{ thread.replies|length }} replies</span>
           </div>
         </div>
+
       {% endfor %}
     </div>
+
+  <!-- If no threads exist -->
   {% else %}
+
+    <!-- Empty state message -->
     <div class="empty-state">
       <p>No forum threads found.</p>
     </div>
+
   {% endif %}
 </section>
+
+<!-- End of content block -->
 {% endblock %}

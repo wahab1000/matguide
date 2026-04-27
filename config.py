@@ -6,12 +6,16 @@ For this project we are using SQLite locally because it is simple and
 good for a student web app MVP.
 """
 
+# Imports os so the app can read environment variables and build file paths
 import os
 
+# Gets the absolute path of this project's current folder
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 
+# Config class stores settings that Flask will load in app.py
 class Config:
+
     # Secret key is used by Flask to protect sessions and flash messages.
     SECRET_KEY = os.environ.get("SECRET_KEY", "dev-key-change-this-later")
 

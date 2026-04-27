@@ -1,19 +1,41 @@
+<!-- This page uses the base layout -->
 {% extends "base.html" %}
+
+<!-- Start of content block -->
 {% block content %}
+
+<!-- Section for form-based pages -->
 <section class="form-page">
+
+  <!-- Narrow form card used for account creation -->
   <div class="form-card narrow">
+
+    <!-- Page heading -->
     <h1>Create Account</h1>
+
+    <!-- Short description explaining purpose -->
     <p class="muted-text">Create an account to log training and join discussions.</p>
 
+    <!-- Form sends registration data using POST -->
     <form method="POST" class="styled-form">
+
+      <!-- Label for email input -->
       <label for="email">Email</label>
+
+      <!-- Email input field (required) -->
       <input type="email" name="email" id="email" required>
 
+      <!-- Label for password input -->
       <label for="password">Password</label>
+
+      <!-- Password input field (hidden text, required) -->
       <input type="password" name="password" id="password" required>
 
+      <!-- Submit button to register account -->
       <button type="submit" class="button full-width">Register</button>
     </form>
   </div>
 </section>
+
+<!-- End of content block -->
 {% endblock %}

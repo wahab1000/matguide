@@ -1,81 +1,172 @@
+<!-- This page uses the base layout -->
 {% extends "base.html" %}
+
+<!-- Start of content block -->
 {% block content %}
+
+<!-- Main section for viewing a forum thread -->
 <section class="section-block">
+
+  <!-- Card showing the main thread -->
   <div class="thread-detail-card">
+
+    <!-- Top section with category and date -->
     <div class="thread-top">
+
+      <!-- Left side (category + related technique) -->
       <div>
+
+        <!-- Displays thread category -->
         <span class="pill">{{ thread.category }}</span>
+
+        <!-- Check if this thread is linked to a technique -->
         {% if thread.related_technique %}
+
+          <!-- Shows related technique with link -->
           <span class="pill alt-pill">
             Related technique:
+
+            <!-- Link to the technique detail page -->
             <a href="{{ url_for('technique_detail', technique_id=thread.related_technique.id) }}">
               {{ thread.related_technique.name }}
             </a>
           </span>
+
         {% endif %}
       </div>
+
+      <!-- Displays when the thread was created -->
       <span class="muted-text">{{ thread.created_at.strftime("%d %b %Y %H:%M") }}</span>
     </div>
 
+    <!-- Thread title -->
     <h1>{{ thread.title }}</h1>
+
+    <!-- Shows who created the thread -->
     <p class="muted-text">Started by {{ thread.author.email }}</p>
+
+    <!-- Thread body/content -->
     <div class="thread-body">
       <p>{{ thread.body }}</p>
     </div>
 
+    <!-- Only show edit/delete options if the logged-in user owns the thread -->
     {% if current_user.is_authenticated and current_user.id == thread.user_id %}
+
+      <!-- Action buttons -->
       <div class="inline-actions">
-        <a class="button secondary" href="{{ url_for('edit_thread', thread_id=thread.id) }}">Edit Thread</a>
+
+        <!-- Edit thread button -->
+        <a class="button secondary" href="{{ url_for('edit_thread', thread_id=thread.id) }}">
+          Edit Thread
+        </a>
+
+        <!-- Delete thread form -->
         <form method="POST" action="{{ url_for('delete_thread', thread_id=thread.id) }}" class="inline-form">
+
+          <!-- Delete button -->
           <button type="submit" class="button danger">Delete Thread</button>
         </form>
       </div>
+
     {% endif %}
   </div>
 
+  <!-- Replies section header -->
   <div class="section-header top-gap">
     <h2>Replies</h2>
+
+    <!-- Displays total number of replies -->
     <p>{{ replies|length }} total replies</p>
   </div>
 
+  <!-- Check if there are replies -->
   {% if replies %}
+
+    <!-- List of replies -->
     <div class="reply-list">
+
+      <!-- Loop through each reply -->
       {% for reply in replies %}
+
+        <!-- Individual reply card -->
         <div class="reply-card">
+
+          <!-- Top section of reply -->
           <div class="thread-bottom">
+
+            <!-- Author of reply -->
             <span><strong>{{ reply.author.email }}</strong></span>
+
+            <!-- Date/time reply was created -->
             <span class="muted-text">{{ reply.created_at.strftime("%d %b %Y %H:%M") }}</span>
           </div>
+
+          <!-- Reply content -->
           <p>{{ reply.body }}</p>
 
+          <!-- Only show delete button if user owns the reply -->
           {% if current_user.is_authenticated and current_user.id == reply.user_id %}
+
+            <!-- Delete reply form -->
             <form method="POST" action="{{ url_for('delete_reply', reply_id=reply.id) }}" class="top-gap-small">
+
+              <!-- Delete button -->
               <button type="submit" class="button danger">Delete Reply</button>
             </form>
+
           {% endif %}
         </div>
+
       {% endfor %}
     </div>
+
+  <!-- If no replies -->
   {% else %}
+
+    <!-- Empty state -->
     <div class="empty-state">
       <p>No replies yet.</p>
     </div>
+
   {% endif %}
 
+  <!-- If user is logged in, show reply form -->
   {% if current_user.is_authenticated %}
+
+    <!-- Form card for posting a reply -->
     <div class="form-card wide top-gap">
+
+      <!-- Section heading -->
       <h3>Post a Reply</h3>
+
+      <!-- Form submits reply using POST -->
       <form method="POST" class="styled-form">
+
+        <!-- Label for reply text -->
         <label for="body">Your Reply</label>
+
+        <!-- Text area for writing reply -->
         <textarea name="body" id="body" rows="6" required></textarea>
+
+        <!-- Submit button -->
         <button type="submit" class="button">Post Reply</button>
       </form>
     </div>
+
+  <!-- If user is not logged in -->
   {% else %}
+
+    <!-- Prompt to log in -->
     <div class="empty-state top-gap">
       <p>Please log in to reply to this discussion.</p>
+
+      <!-- Login button -->
       <a class="button" href="{{ url_for('login') }}">Log In</a>
     </div>
+
   {% endif %}
 </section>
+
+<!-- End of content block -->
 {% endblock %}

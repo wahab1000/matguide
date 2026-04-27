@@ -1,19 +1,41 @@
+<!-- This page uses the base layout -->
 {% extends "base.html" %}
+
+<!-- Start of content block -->
 {% block content %}
+
+<!-- Section for form-based pages -->
 <section class="form-page">
+
+  <!-- Narrow form card used for login -->
   <div class="form-card narrow">
+
+    <!-- Page heading -->
     <h1>Log In</h1>
+
+    <!-- Short description explaining purpose -->
     <p class="muted-text">Access your dashboard, logs, and forum participation.</p>
 
+    <!-- Form sends login details using POST -->
     <form method="POST" class="styled-form">
+
+      <!-- Label for email input -->
       <label for="email">Email</label>
+
+      <!-- Email input field (required) -->
       <input type="email" name="email" id="email" required>
 
+      <!-- Label for password input -->
       <label for="password">Password</label>
+
+      <!-- Password input field (hidden text, required) -->
       <input type="password" name="password" id="password" required>
 
+      <!-- Submit button to log in -->
       <button type="submit" class="button full-width">Log In</button>
     </form>
   </div>
 </section>
+
+<!-- End of content block -->
 {% endblock %}

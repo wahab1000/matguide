@@ -1,30 +1,57 @@
+<!-- This page uses the base layout -->
 {% extends "base.html" %}
+
+<!-- Start of content block -->
 {% block content %}
+
+<!-- Main hero section at the top of the homepage -->
 <section class="hero-section">
+
+  <!-- Large hero card containing text and stats -->
   <div class="hero-card">
+
+    <!-- Left side of the hero card -->
     <div class="hero-text">
+
+      <!-- Small label above the main title -->
       <span class="eyebrow">Brazilian Jiu-Jitsu Web Platform</span>
+
+      <!-- Main homepage heading -->
       <h1>Train smarter with MatGuide</h1>
+
+      <!-- Short description of the website -->
       <p>
         MatGuide combines a structured technique library, personal training logs,
         original instructional video content, and a public discussion forum into one platform.
       </p>
 
+      <!-- Main action buttons -->
       <div class="hero-actions">
+
+        <!-- Link to technique library -->
         <a class="button" href="{{ url_for('techniques') }}">Browse Techniques</a>
+
+        <!-- Link to forum page -->
         <a class="button secondary" href="{{ url_for('forum') }}">Visit Forum</a>
       </div>
     </div>
 
+    <!-- Right side of the hero card showing site stats -->
     <div class="hero-stats">
+
+      <!-- Total techniques stat -->
       <div class="stat-card">
         <span class="stat-label">Techniques</span>
         <span class="stat-value">{{ total_techniques }}</span>
       </div>
+
+      <!-- Total forum threads stat -->
       <div class="stat-card">
         <span class="stat-label">Forum Threads</span>
         <span class="stat-value">{{ total_threads }}</span>
       </div>
+
+      <!-- Total registered users stat -->
       <div class="stat-card">
         <span class="stat-label">Registered Users</span>
         <span class="stat-value">{{ total_users }}</span>
@@ -33,23 +60,31 @@
   </div>
 </section>
 
+<!-- Section explaining the main features -->
 <section class="section-block">
+
+  <!-- Section header -->
   <div class="section-header">
     <h2>What the platform offers</h2>
     <p>A single place to learn, reflect, and exchange ideas.</p>
   </div>
 
+  <!-- Feature cards grid -->
   <div class="feature-grid">
+
+    <!-- Technique library feature -->
     <div class="feature-card">
       <h3>Technique Library</h3>
       <p>Browse techniques by category and level, with original embedded instructional videos.</p>
     </div>
 
+    <!-- Training logs feature -->
     <div class="feature-card">
       <h3>Training Logs</h3>
       <p>Record each session, note what worked, and build a clearer picture of your progress over time.</p>
     </div>
 
+    <!-- Community forum feature -->
     <div class="feature-card">
       <h3>Community Forum</h3>
       <p>Ask questions, discuss techniques, and share training ideas with other practitioners.</p>
@@ -57,31 +92,57 @@
   </div>
 </section>
 
+<!-- Section showing recent forum discussions -->
 <section class="section-block">
+
+  <!-- Section header -->
   <div class="section-header">
     <h2>Recent discussions</h2>
     <p>Latest public threads from the MatGuide community.</p>
   </div>
 
+  <!-- Checks if there are recent threads to show -->
   {% if recent_threads %}
+
+    <!-- List of recent forum threads -->
     <div class="forum-preview-list">
+
+      <!-- Loops through each recent thread -->
       {% for thread in recent_threads %}
+
+        <!-- Clickable card linking to the thread detail page -->
         <a class="forum-preview-card" href="{{ url_for('thread_detail', thread_id=thread.id) }}">
           <span class="thread-category">{{ thread.category }}</span>
           <h3>{{ thread.title }}</h3>
           <p class="muted-text">By {{ thread.author.email }} • {{ thread.created_at.strftime("%d %b %Y") }}</p>
         </a>
+
+      <!-- End of recent thread loop -->
       {% endfor %}
     </div>
+
+  <!-- If there are no recent threads -->
   {% else %}
+
+    <!-- Empty state card -->
     <div class="empty-state">
       <p>No forum discussions yet. Be the first to start one.</p>
+
+      <!-- If user is logged in, let them create a thread -->
       {% if current_user.is_authenticated %}
         <a class="button" href="{{ url_for('new_thread') }}">Create Thread</a>
+
+      <!-- If user is not logged in, encourage them to register -->
       {% else %}
         <a class="button" href="{{ url_for('register') }}">Create an Account</a>
+
+      <!-- End of login check -->
       {% endif %}
     </div>
+
+  <!-- End of recent threads check -->
   {% endif %}
 </section>
+
+<!-- End of content block -->
 {% endblock %}

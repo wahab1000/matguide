@@ -5,28 +5,39 @@ This inserts the MatGuide technique library when the project is first run.
 Each technique includes a YouTube link to an original instructional video.
 """
 
+# Imports the Technique model so we can create technique objects
 from models import Technique
+
+# Imports the database so we can add and commit data
 from extensions import db
 
 
+# Function that adds starter techniques into the database
 def seed_techniques():
     """
     Add starter technique data only if the table is empty.
     """
+
+    # Checks if there is already at least one technique in the database
+    # If there is, it means data has already been seeded, so we stop here
     if Technique.query.first():
         return
 
+    # List of technique objects that will be added to the database
     starter_techniques = [
+
+        # Each Technique(...) creates a new technique record
         Technique(
-            name="Shrimp (Hip Escape)",
-            category="Escapes",
-            level="Beginner",
+            name="Shrimp (Hip Escape)",  # Technique name
+            category="Escapes",  # Category it belongs to
+            level="Beginner",  # Difficulty level
             description=(
                 "A fundamental movement used to create space, recover guard, and escape pressure. "
                 "Important details include framing correctly, moving the hips away, and keeping distance."
-            ),
-            youtube_url="https://youtu.be/d2e2XVtyjwo"
+            ),  # Description shown to the user
+            youtube_url="https://youtu.be/d2e2XVtyjwo"  # YouTube link for video
         ),
+
         Technique(
             name="Scissor Sweep",
             category="Sweeps",
@@ -37,6 +48,7 @@ def seed_techniques():
             ),
             youtube_url="https://youtu.be/_1SPyonsIoE"
         ),
+
         Technique(
             name="Rolling Armbar",
             category="Submissions",
@@ -47,16 +59,18 @@ def seed_techniques():
             ),
             youtube_url="https://youtu.be/0XhA3SGilpw"
         ),
+
         Technique(
             name="Knee Slide Guard Pass",
             category="Guard Passes",
             level="Intermediate",
             description=(
                 "A pressure-based guard pass that uses upper-body control and knee positioning to pass "
-                "through the opponent’s legs while maintaining balance and pressure."
+                "through the opponent's legs while maintaining balance and pressure."
             ),
             youtube_url="https://youtu.be/RKSb4pyp5oA"
         ),
+
         Technique(
             name="Hip Throw",
             category="Takedowns",
@@ -67,6 +81,7 @@ def seed_techniques():
             ),
             youtube_url="https://youtu.be/86jSw0s1hVE"
         ),
+
         Technique(
             name="Hip Bump Sweep",
             category="Sweeps",
@@ -77,6 +92,7 @@ def seed_techniques():
             ),
             youtube_url="https://youtu.be/CwMbcRubO8c"
         ),
+
         Technique(
             name="Double Leg Takedown",
             category="Takedowns",
@@ -87,6 +103,7 @@ def seed_techniques():
             ),
             youtube_url="https://youtu.be/g-1CxfXPrF4"
         ),
+
         Technique(
             name="Cross Collar Choke",
             category="Submissions",
@@ -97,6 +114,7 @@ def seed_techniques():
             ),
             youtube_url="https://youtu.be/QdE2yKvSlfk"
         ),
+
         Technique(
             name="Bridge and Roll Escape",
             category="Escapes",
@@ -107,6 +125,7 @@ def seed_techniques():
             ),
             youtube_url="https://youtu.be/_pPAghyMf9M"
         ),
+
         Technique(
             name="Berimbolo",
             category="Advanced Transitions",
@@ -119,5 +138,8 @@ def seed_techniques():
         ),
     ]
 
+    # Adds all the technique objects to the database in one go
     db.session.add_all(starter_techniques)
+
+    # Commits (saves) the data permanently into the database
     db.session.commit()

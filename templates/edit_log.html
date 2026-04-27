@@ -1,11 +1,25 @@
+<!-- This page uses the base layout from base.html -->
 {% extends "base.html" %}
+
+<!-- Start of content that will be inserted into base.html -->
 {% block content %}
+
+<!-- Section used for form pages -->
 <section class="form-page">
+
+  <!-- Wide form card to hold the edit log form -->
   <div class="form-card wide">
+
+    <!-- Page heading -->
     <h1>Edit Training Log</h1>
 
+    <!-- Form submits updated log details using POST -->
     <form method="POST" class="styled-form">
+
+      <!-- Label for the session date field -->
       <label for="session_date">Date</label>
+
+      <!-- Date input pre-filled with the log's current date -->
       <input
         type="date"
         name="session_date"
@@ -14,7 +28,10 @@
         required
       >
 
+      <!-- Label for the duration field -->
       <label for="duration_minutes">Duration (minutes)</label>
+
+      <!-- Number input pre-filled with current duration if it exists -->
       <input
         type="number"
         name="duration_minutes"
@@ -23,7 +40,10 @@
         value="{{ log.duration_minutes if log.duration_minutes else '' }}"
       >
 
+      <!-- Label for the techniques field -->
       <label for="techniques">Techniques Practised</label>
+
+      <!-- Text input pre-filled with current techniques if they exist -->
       <input
         type="text"
         name="techniques"
@@ -31,11 +51,17 @@
         value="{{ log.techniques if log.techniques else '' }}"
       >
 
+      <!-- Label for the notes field -->
       <label for="notes">Notes</label>
+
+      <!-- Text area pre-filled with current notes if they exist -->
       <textarea name="notes" id="notes" rows="6">{{ log.notes if log.notes else '' }}</textarea>
 
+      <!-- Submit button to save the updated log -->
       <button type="submit" class="button">Update Log</button>
     </form>
   </div>
 </section>
+
+<!-- End of content block -->
 {% endblock %}

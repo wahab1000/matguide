@@ -1,3 +1,4 @@
+/* Stores reusable colours and design values for the whole site */
 :root {
   --bg: #0b1220;
   --surface: rgba(255, 255, 255, 0.82);
@@ -15,10 +16,12 @@
   --radius: 22px;
 }
 
+/* Makes padding and borders easier to manage in element sizing */
 * {
   box-sizing: border-box;
 }
 
+/* Main styling for the whole page */
 body {
   margin: 0;
   font-family: "Inter", "Segoe UI", Arial, sans-serif;
@@ -30,15 +33,18 @@ body {
   min-height: 100vh;
 }
 
+/* Basic link styling */
 a {
   color: var(--primary-dark);
   text-decoration: none;
 }
 
+/* Adds underline when hovering over links */
 a:hover {
   text-decoration: underline;
 }
 
+/* Header stays at the top while scrolling */
 .site-header {
   position: sticky;
   top: 0;
@@ -48,6 +54,7 @@ a:hover {
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+/* Main navigation bar layout */
 .navbar {
   max-width: 1220px;
   margin: 0 auto;
@@ -57,6 +64,7 @@ a:hover {
   justify-content: space-between;
 }
 
+/* Left and right navigation groups */
 .nav-left,
 .nav-right {
   display: flex;
@@ -64,29 +72,34 @@ a:hover {
   gap: 18px;
 }
 
+/* Navbar links */
 .navbar a {
   color: rgba(255, 255, 255, 0.92);
   font-weight: 500;
   text-decoration: none;
 }
 
+/* Website name/logo text */
 .brand {
   font-size: 1.45rem;
   font-weight: 800;
   letter-spacing: -0.03em;
 }
 
+/* Logged-in user's email in the navbar */
 .user-email {
   color: rgba(255, 255, 255, 0.75);
   font-size: 0.95rem;
 }
 
+/* Main page wrapper */
 .page-shell {
   max-width: 1220px;
   margin: 0 auto;
   padding: 34px 24px 60px;
 }
 
+/* Footer styling */
 .footer {
   text-align: center;
   padding: 26px 18px 42px;
@@ -94,6 +107,7 @@ a:hover {
   font-size: 0.95rem;
 }
 
+/* General button style used across the site */
 .button {
   display: inline-flex;
   align-items: center;
@@ -111,34 +125,41 @@ a:hover {
   transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
 }
 
+/* Button hover effect */
 .button:hover {
   transform: translateY(-1px);
   box-shadow: 0 14px 20px rgba(37, 99, 235, 0.24);
   text-decoration: none;
 }
 
+/* Grey secondary button */
 .button.secondary {
   background: linear-gradient(135deg, #475569, #64748b);
   box-shadow: 0 10px 18px rgba(71, 85, 105, 0.2);
 }
 
+/* Red danger button, used for delete actions */
 .button.danger {
   background: linear-gradient(135deg, var(--danger), #ef4444);
   box-shadow: 0 10px 18px rgba(220, 38, 38, 0.2);
 }
 
+/* Makes a button take the full width of its container */
 .button.full-width {
   width: 100%;
 }
 
+/* Smaller button style used in the navbar */
 .nav-button {
   padding: 10px 16px;
 }
 
+/* Area that holds flash messages */
 .flash-container {
   margin-bottom: 22px;
 }
 
+/* General flash message styling */
 .flash {
   padding: 14px 18px;
   border-radius: 16px;
@@ -146,18 +167,22 @@ a:hover {
   box-shadow: var(--shadow);
 }
 
+/* Success flash message */
 .flash.success {
   background: var(--success-bg);
 }
 
+/* Error flash message */
 .flash.error {
   background: var(--error-bg);
 }
 
+/* Main hero section spacing */
 .hero-section {
   margin-bottom: 34px;
 }
 
+/* Large hero card on the homepage */
 .hero-card {
   display: grid;
   grid-template-columns: 1.4fr 0.85fr;
@@ -169,6 +194,7 @@ a:hover {
   box-shadow: var(--shadow);
 }
 
+/* Small label above some headings */
 .eyebrow {
   display: inline-block;
   margin-bottom: 12px;
@@ -179,6 +205,7 @@ a:hover {
   letter-spacing: 0.08em;
 }
 
+/* Main hero title */
 .hero-text h1 {
   margin: 0 0 14px;
   font-size: 3rem;
@@ -186,6 +213,7 @@ a:hover {
   letter-spacing: -0.05em;
 }
 
+/* Hero description paragraph */
 .hero-text p {
   margin: 0;
   max-width: 640px;
@@ -194,6 +222,7 @@ a:hover {
   color: var(--muted);
 }
 
+/* Holds hero buttons */
 .hero-actions {
   display: flex;
   gap: 14px;
@@ -201,11 +230,13 @@ a:hover {
   flex-wrap: wrap;
 }
 
+/* Holds hero stat cards */
 .hero-stats {
   display: grid;
   gap: 14px;
 }
 
+/* Shared card styling for the main blocks */
 .stat-card,
 .feature-card,
 .form-card,
@@ -224,6 +255,7 @@ a:hover {
   box-shadow: var(--shadow);
 }
 
+/* Adds padding to most cards */
 .stat-card,
 .feature-card,
 .technique-card,
@@ -236,6 +268,7 @@ a:hover {
   padding: 22px;
 }
 
+/* Small label inside stat cards */
 .stat-label {
   display: block;
   color: var(--muted);
@@ -243,6 +276,7 @@ a:hover {
   margin-bottom: 12px;
 }
 
+/* Large stat number */
 .stat-value {
   display: block;
   font-size: 2.5rem;
@@ -250,6 +284,7 @@ a:hover {
   letter-spacing: -0.05em;
 }
 
+/* Smaller stat text for longer values */
 .stat-small {
   display: block;
   font-size: 1.15rem;
@@ -257,14 +292,17 @@ a:hover {
   line-height: 1.4;
 }
 
+/* Standard section spacing */
 .section-block {
   margin-bottom: 34px;
 }
 
+/* Section heading area */
 .section-header {
   margin-bottom: 18px;
 }
 
+/* Section titles */
 .section-header h1,
 .section-header h2 {
   margin: 0 0 8px;
@@ -272,12 +310,14 @@ a:hover {
   letter-spacing: -0.04em;
 }
 
+/* Section description text */
 .section-header p {
   margin: 0;
   color: var(--muted);
   line-height: 1.7;
 }
 
+/* Shared grid setup */
 .feature-grid,
 .stats-grid,
 .technique-grid {
@@ -285,22 +325,27 @@ a:hover {
   gap: 18px;
 }
 
+/* Responsive grid for feature cards */
 .feature-grid {
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 }
 
+/* Responsive grid for stat cards */
 .stats-grid {
   grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
 }
 
+/* Wider stat grid version */
 .stats-grid.four-cols {
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
+/* Responsive grid for technique cards */
 .technique-grid {
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 }
 
+/* Shared list layouts */
 .forum-preview-list,
 .thread-list,
 .reply-list,
@@ -310,11 +355,13 @@ a:hover {
   gap: 16px;
 }
 
+/* Makes forum preview cards behave like full clickable blocks */
 .forum-preview-card {
   display: block;
   text-decoration: none;
 }
 
+/* Slight lift effect for hoverable cards */
 .forum-preview-card:hover,
 .technique-card:hover,
 .thread-card:hover {
@@ -322,35 +369,42 @@ a:hover {
   transition: transform 0.16s ease;
 }
 
+/* Adds padding to forms and filters */
 .filter-card,
 .form-card {
   padding: 24px;
 }
 
+/* Narrow form width, useful for login/register */
 .form-card.narrow {
   max-width: 520px;
   margin: 0 auto;
 }
 
+/* Wider form width, useful for larger forms */
 .form-card.wide {
   max-width: 980px;
   margin: 0 auto;
 }
 
+/* Page spacing for form pages */
 .form-page {
   padding: 12px 0 26px;
 }
 
+/* Form layout */
 .styled-form {
   display: grid;
   gap: 12px;
 }
 
+/* Form labels */
 .styled-form label {
   font-weight: 700;
   margin-top: 6px;
 }
 
+/* Shared input and select styling */
 .styled-form input,
 .styled-form select,
 .styled-form textarea,
@@ -367,6 +421,7 @@ a:hover {
   transition: border 0.15s ease, box-shadow 0.15s ease;
 }
 
+/* Highlight effect when a form field is selected */
 .styled-form input:focus,
 .styled-form select:focus,
 .styled-form textarea:focus,
@@ -376,6 +431,7 @@ a:hover {
   box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
 }
 
+/* Filter/search form layout */
 .filter-card {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr auto;
@@ -383,10 +439,12 @@ a:hover {
   align-items: center;
 }
 
+/* Forum filter has one fewer dropdown, so it uses fewer columns */
 .forum-filter {
   grid-template-columns: 2fr 1fr auto;
 }
 
+/* Toolbar layout for actions/buttons */
 .toolbar {
   display: flex;
   align-items: center;
@@ -394,12 +452,14 @@ a:hover {
   margin: 18px 0 24px;
 }
 
+/* Toolbar version that spreads content apart */
 .toolbar.spaced {
   justify-content: space-between;
   align-items: flex-start;
   gap: 20px;
 }
 
+/* Shared flex layout for card top/bottom rows */
 .thread-top,
 .thread-bottom,
 .log-top,
@@ -412,12 +472,14 @@ a:hover {
   justify-content: space-between;
 }
 
+/* Muted text and preview text */
 .thread-preview,
 .muted-text {
   color: var(--muted);
   line-height: 1.65;
 }
 
+/* Makes longer text easier to read */
 .thread-body p,
 .detail-description,
 .log-card p,
@@ -426,6 +488,7 @@ a:hover {
   line-height: 1.7;
 }
 
+/* Rounded label/badge styling */
 .pill {
   display: inline-flex;
   align-items: center;
@@ -437,16 +500,19 @@ a:hover {
   font-weight: 700;
 }
 
+/* Teal version of a pill for technique level */
 .level-pill {
   background: rgba(15, 118, 110, 0.12);
   color: var(--accent);
 }
 
+/* Grey version of a pill */
 .alt-pill {
   background: rgba(100, 116, 139, 0.12);
   color: #334155;
 }
 
+/* Layout for detail pages with main area and side area */
 .detail-layout {
   display: grid;
   grid-template-columns: 1.5fr 0.8fr;
@@ -454,17 +520,20 @@ a:hover {
   align-items: start;
 }
 
+/* Container around embedded videos */
 .video-shell {
   margin-top: 18px;
   overflow: hidden;
   padding: 12px;
 }
 
+/* Embedded video styling */
 .video-shell iframe {
   border-radius: 18px;
   display: block;
 }
 
+/* Small linked item used in side lists */
 .mini-thread-item {
   display: block;
   padding: 12px 14px;
@@ -473,32 +542,39 @@ a:hover {
   text-decoration: none;
 }
 
+/* Hover effect for small linked items */
 .mini-thread-item:hover {
   background: rgba(226, 232, 240, 0.9);
   text-decoration: none;
 }
 
+/* Message card used when there is no content */
 .empty-state {
   text-align: center;
   padding: 28px;
 }
 
+/* Adds space above back links */
 .back-link {
   margin-top: 18px;
 }
 
+/* Larger top margin helper class */
 .top-gap {
   margin-top: 28px;
 }
 
+/* Smaller top margin helper class */
 .top-gap-small {
   margin-top: 12px;
 }
 
+/* Keeps small forms inline, for example delete forms */
 .inline-form {
   display: inline;
 }
 
+/* Tablet/smaller screen styles */
 @media (max-width: 980px) {
   .hero-card,
   .detail-layout {
@@ -515,6 +591,7 @@ a:hover {
   }
 }
 
+/* Mobile screen styles */
 @media (max-width: 720px) {
   .navbar {
     flex-direction: column;

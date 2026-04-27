@@ -1,35 +1,77 @@
+<!-- This page uses the base layout -->
 {% extends "base.html" %}
+
+<!-- Start of content block -->
 {% block content %}
+
+<!-- Section for form-based pages -->
 <section class="form-page">
+
+  <!-- Wide form card for creating a new discussion thread -->
   <div class="form-card wide">
+
+    <!-- Page heading -->
     <h1>Create Discussion Thread</h1>
+
+    <!-- Short description explaining the purpose -->
     <p class="muted-text">Start a public discussion and optionally link it to a technique.</p>
 
+    <!-- Form sends thread data using POST -->
     <form method="POST" class="styled-form">
+
+      <!-- Label for thread title -->
       <label for="title">Thread Title</label>
+
+      <!-- Input for entering thread title -->
       <input type="text" name="title" id="title" required>
 
+      <!-- Label for category selection -->
       <label for="category">Category</label>
+
+      <!-- Dropdown to select a category -->
       <select name="category" id="category" required>
+
+        <!-- Default option -->
         <option value="">Select category</option>
+
+        <!-- Loop through categories -->
         {% for category in categories %}
+
+          <!-- Each category option -->
           <option value="{{ category }}">{{ category }}</option>
+
         {% endfor %}
       </select>
 
+      <!-- Label for linking a technique -->
       <label for="technique_id">Related Technique (optional)</label>
+
+      <!-- Dropdown to choose a related technique -->
       <select name="technique_id" id="technique_id">
+
+        <!-- Default option -->
         <option value="">No related technique</option>
+
+        <!-- Loop through techniques -->
         {% for technique in techniques %}
+
+          <!-- Each technique option -->
           <option value="{{ technique.id }}">{{ technique.name }}</option>
+
         {% endfor %}
       </select>
 
+      <!-- Label for thread body -->
       <label for="body">Post Content</label>
+
+      <!-- Text area for writing the thread -->
       <textarea name="body" id="body" rows="8" required></textarea>
 
+      <!-- Submit button to create the thread -->
       <button type="submit" class="button">Create Thread</button>
     </form>
   </div>
 </section>
+
+<!-- End of content block -->
 {% endblock %}
